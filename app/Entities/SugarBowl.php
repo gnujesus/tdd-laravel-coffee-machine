@@ -10,4 +10,11 @@ class SugarBowl
     {
         $this->amount = $amount;
     }
+
+    public function addSugar(int $amount)
+    {
+        $this->amount -= $amount;
+        return $amount;
+    }
+
 }
