@@ -2,63 +2,53 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
+use App\Entities\CoffeeMachine;
+use Tests\Unit\CoffeeMachineSingleton;
 
 class CoffeeMachineController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public CoffeeMachineSingleton $singleton;
+
+    public function __construct()
+    {
+        if (session()->has('coffee_machine_singleton')) {
+            $this->singleton = session('coffee_machine_singleton');
+        } else {
+            $this->singleton = CoffeeMachineSingleton::getInstance();
+            session(['coffee_machine_singleton' => $this->singleton]);
+        }
+    }
+
     public function index()
     {
         return view('index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function selectCup()
     {
-        //
+        return view('cup');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function selectSugar(Request $request)
     {
-        //
+        $cupSize = $request->input('cup_size');
+        return view('sugar', ['cup_size' => $cupSize]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function getCoffee(Request $request)
     {
-        //
+        $cupSize = $request->input('cup_size');
+        $amountOfSugar = $request->input('sugar_amount');
+
+        try {
+            $cup = $this->singleton->coffeeMachine->makeCoffee($cupSize, $amountOfSugar);
+            session(['coffee_machine_singleton' => $this->singleton]); // Update session
+            return view('success', ['cup' => $cup, 'log' => $this->singleton->coffeeMachine]);
+        } catch (Exception $e) {
+            return view('failed', ['errorMessage' => $e->getMessage()]);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

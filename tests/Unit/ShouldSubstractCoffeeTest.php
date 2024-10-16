@@ -16,7 +16,7 @@ it('should decrement coffee supply', function () {
     $coffeeSupplyBefore = $coffeeMachine->coffeeSupply;
 
     // Dispense coffee
-    $coffeeMachine->makeCoffee("small", 2);
+    $coffeeMachine->makeCoffee("small");
 
     // Assert the coffee supply has decreased by 1
     expect($coffeeMachine->coffeeSupply)->toBe($coffeeSupplyBefore - 1);

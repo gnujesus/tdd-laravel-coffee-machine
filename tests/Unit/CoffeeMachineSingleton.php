@@ -25,13 +25,6 @@ class CoffeeMachineSingleton
       array_push($largeCups, new Cup("large"));
     }
 
-    $coffeeMachine = new CoffeeMachine(
-      $smallCups,
-      $mediumCups,
-      $largeCups,
-      $sugarBowl
-    );
-
     $this->coffeeMachine = new CoffeeMachine($smallCups, $mediumCups, $largeCups, $sugarBowl);
   }
 

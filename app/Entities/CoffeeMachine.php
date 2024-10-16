@@ -34,6 +34,10 @@ class CoffeeMachine
     {
         switch (strtolower($typeOfCup)) {
             case "small":
+                if (count($this->smallCups) <= 0) {
+                    throw new Exception('there are not enough small cups');
+                }
+
                 unset($this->smallCups[0]);
 
                 // using unset doesn't reindex the array, so you have to reassign it to be reindexed using array_values
@@ -41,6 +45,10 @@ class CoffeeMachine
                 return new Cup("small", $coffee);
 
             case "medium":
+                if (count($this->smallCups) <= 0) {
+                    throw new Exception('there are not enough medium cups');
+                }
+
                 unset($this->mediumCups[0]);
 
                 // using unset doesn't reindex the array, so you have to reassign it to be reindexed using array_values
@@ -48,6 +56,10 @@ class CoffeeMachine
                 return new Cup("medium", $coffee);
 
             default:
+                if (count($this->smallCups) <= 0) {
+                    throw new Exception('there are not enough large cups');
+                }
+
                 unset($this->largeCups[0]);
 
                 // using unset doesn't reindex the array, so you have to reassign it to be reindexed using array_values
