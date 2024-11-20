@@ -43,7 +43,7 @@ This project is a coffee machine application built with Laravel. Below are the s
     php artisan serve
     ```
 
-2. In another terminal, compile the frontend assets:
+2. In another terminal, compile the frontend:
 
     ```bash
     npm run dev
